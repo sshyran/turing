@@ -1,0 +1,45 @@
+package com.anishathalye.turing.machine
+
+import scala.annotation.tailrec
+
+final class TuringMachine(actions: Map[(State, Symbol), (State, Symbol, Direction)]) {
+
+  def step(start: (State, Tape)): (State, Tape) = {
+    val (state, tape) = start
+    if (state == Halt || state == Error) {
+      start
+    } else {
+      val symbol = tape.head
+      (actions lift (state, symbol)) match {
+        case Some((newState, newSymbol, direction)) => {
+          (newState, tape write newSymbol move direction)
+        }
+        case None => {
+          (Error, tape)
+        }
+      }
+    }
+  }
+
+  @tailrec
+  def process(start: (State, Tape)): (State, Tape) = {
+    val (state, tape) = start
+    if (state == Halt || state == Error) start
+    else process(step(start))
+  }
+
+  @tailrec
+  def processWithLimit(steps: Int)(start: (State, Tape)): (State, Tape) = {
+    val (state, tape) = start
+    if (state == Halt || state == Error || steps <= 0) start
+    else processWithLimit(steps - 1)(step(start))
+  }
+
+}
+
+object TuringMachine {
+
+  def apply(rules: ((State, Symbol), (State, Symbol, Direction))*): TuringMachine = {
+    new TuringMachine(Map(rules: _*))
+  }
+}
