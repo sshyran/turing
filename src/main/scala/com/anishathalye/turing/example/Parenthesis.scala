@@ -24,7 +24,7 @@ object Parenthesis {
   )
 
   def isBalanced(parens: String): Boolean = {
-    if (parens forall { c => c == '(' || c == ')' }) {
+    if (parens.nonEmpty && (parens forall { c => c == '(' || c == ')' })) {
       val input = Tape(0)((parens map { Symbol(_) }): _*)
       val (state, tape) = balancer process ("1", input)
       return tape.head == Symbol('1')
