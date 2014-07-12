@@ -4,13 +4,13 @@ import scala.language.implicitConversions
 
 trait Implicits {
 
-  final implicit def tuple2Action(tuple: ((String, Char), (String, Char, Direction))): ((State, Symbol), (State, Symbol, Direction)) = {
+  final implicit def tuple2Action(tuple: ((String, Char), (String, Char, Direction))): ((State, Symb), (State, Symb, Direction)) = {
     tuple match {
-      case ((s, c), (ns, nc, d)) => ((s: State, c: Symbol), (ns: State, nc: Symbol, d))
+      case ((s, c), (ns, nc, d)) => ((s: State, c: Symb), (ns: State, nc: Symb, d))
     }
   }
 
-  final implicit def char2Symbol(char: Char): Symbol = Symbol(char)
+  final implicit def char2Symb(char: Char): Symb = Symb(char)
 
   final implicit def string2State(string: String): State = State(string)
 

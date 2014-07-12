@@ -2,7 +2,7 @@ package com.anishathalye.turing.machine
 
 import scala.annotation.tailrec
 
-final class TuringMachine(actions: Map[(State, Symbol), (State, Symbol, Direction)]) {
+final class TuringMachine(actions: Map[(State, Symb), (State, Symb, Direction)]) {
 
   def step(start: (State, Tape)): (State, Tape) = {
     val (state, tape) = start
@@ -11,8 +11,8 @@ final class TuringMachine(actions: Map[(State, Symbol), (State, Symbol, Directio
     } else {
       val symbol = tape.head
       (actions lift (state, symbol)) match {
-        case Some((newState, newSymbol, direction)) => {
-          (newState, tape write newSymbol move direction)
+        case Some((newState, newSymb, direction)) => {
+          (newState, tape write newSymb move direction)
         }
         case None => {
           (Error, tape)
@@ -39,7 +39,8 @@ final class TuringMachine(actions: Map[(State, Symbol), (State, Symbol, Directio
 
 object TuringMachine {
 
-  def apply(rules: ((State, Symbol), (State, Symbol, Direction))*): TuringMachine = {
+  def apply(rules: ((State, Symb), (State, Symb, Direction))*): TuringMachine = {
     new TuringMachine(Map(rules: _*))
   }
+
 }
