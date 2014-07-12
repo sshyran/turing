@@ -27,7 +27,7 @@ object Parenthesis {
     if (parens.nonEmpty && (parens forall { c => c == '(' || c == ')' })) {
       val input = Tape(0)((parens map { Symbol(_) }): _*)
       val (state, tape) = balancer process ("1", input)
-      return tape.head == Symbol('1')
+      tape.head == Symbol('1')
     } else {
       false
     }
@@ -37,7 +37,7 @@ object Parenthesis {
     println("Enter parenthesis to check:")
     val scanner = new Scanner(System.in)
     print("> ")
-    while (scanner.hasNext()) {
+    while (scanner.hasNextLine()) {
       if (isBalanced(scanner.nextLine())) {
         println("Balanced!")
       } else {

@@ -19,10 +19,7 @@ final case class Tape(position: Int, data: Vector[Symbol]) {
     case Stay => this
   }
 
-  def write(symbol: Symbol): Tape = {
-    val (left, right) = data splitAt position
-    Tape(position, left ++ (symbol +: right.tail))
-  }
+  def write(symbol: Symbol): Tape = Tape(position, data updated (position, symbol))
 
   override def toString: String = {
     val selected = data.zipWithIndex map {
